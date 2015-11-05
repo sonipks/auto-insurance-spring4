@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<title>Login</title>
+</head>
+<body>
+	<h1>Home sweet home</h1>
+
+	<div th:if="${#httpServletRequest.remoteUser != null}">
+		<p>Welcome <span th:text="${#httpServletRequest.remoteUser}">sample_user</span>!</p>
+		<form th:action="@{/logout}" method="post">
+			<input type="submit" value="Sign out" />
+		</form>
+	</div>
+<div th:if="${#httpServletRequest.remoteUser == null}">
+<a th:href="@{/login}">Sign In</a>
+</div>
+</body>
+
+</html>

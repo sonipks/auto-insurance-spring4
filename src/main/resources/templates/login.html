@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<title>Login</title>
+</head>
+<body onload='document.f.username.focus();'>
+	<div th:if="${param.error}">
+		<p>
+			<font color='red'>Your login attempt was not successful, try
+				again.<br /> <br />Reason: Bad credentials
+			</font>
+		</p>
+	</div>
+	<div th:if="${param.logout}">
+		<font color='green'>You have been logged out.</font>
+	</div>
+	<br />
+	<br />
+	<form name="f" th:action="@{/login}" method="post">
+		<fieldset>
+			<legend>Please provide your credentials</legend>
+			<div>
+				<label for="username"> User Name : <input type="text"
+					name="username" />
+				</label>
+			</div>
+			<div>
+				<label for="password"> Password: <input type="password"
+					name="password" />
+				</label>
+			</div>
+			<div>
+				<input type="submit" value="Sign In" />
+			</div>
+		</fieldset>
+	</form>
+</body>
+</html>
