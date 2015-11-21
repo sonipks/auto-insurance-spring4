@@ -11,21 +11,22 @@ import org.springframework.security.config.annotation.web.servlet.configuration.
  * This class provides spring security configuration.
  * 
  *  @EnableWebMvcSecurity provides additional feature to auto integrate the
- *  spring security with spring web mvc. Hidden _csrf token is provided automatically.
+ *  spring security with spring web mvc. Hidden _csrf token is provided automatically
+ *  is disabled to make the h2 db console work.
  * 
  * @author Pankaj Soni
  *
  */
 @Configuration
 @EnableWebMvcSecurity
-@Profile("prod")
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter{ 
+@Profile("dev")
+public class WebSecurityConfigDev extends WebSecurityConfigurerAdapter{ 
 	
 	@Override
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
 		httpSecurity
 			.authorizeRequests()
-	        .antMatchers("/", "/home").permitAll()
+	        .antMatchers("/", "/home","/console/*").permitAll()
 	        .anyRequest().authenticated()
 	        .and()
 	    .formLogin()
@@ -35,6 +36,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	    .logout()
 	        .permitAll();
 		
+		//Enable h2 db console
+		httpSecurity.csrf().disable();
+		httpSecurity.headers().frameOptions().disable();
 	}
 	
 	@Autowired
