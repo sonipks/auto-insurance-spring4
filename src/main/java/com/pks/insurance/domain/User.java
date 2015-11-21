@@ -11,8 +11,6 @@ import java.util.List;
  * 
  */
 @Entity
-@Table(name="users")
-@NamedQuery(name="User.findAll", query="SELECT u FROM User u")
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -72,7 +70,7 @@ public class User implements Serializable {
 	//bi-directional many-to-many association to Usergroup
 	@ManyToMany
 	@JoinTable(
-		name="ja_user_usergroup_map"
+		name="user_usergroup_map"
 		, joinColumns={
 			@JoinColumn(name="user_id", nullable=false)
 			}
@@ -80,7 +78,7 @@ public class User implements Serializable {
 			@JoinColumn(name="group_id", nullable=false)
 			}
 		)
-	private List<Usergroup> jaUsergroups;
+	private List<Usergroup> usergroups;
 
 	public User() {
 	}
@@ -213,12 +211,12 @@ public class User implements Serializable {
 		this.username = username;
 	}
 
-	public List<Usergroup> getJaUsergroups() {
-		return this.jaUsergroups;
+	public List<Usergroup> getUsergroups() {
+		return this.usergroups;
 	}
 
-	public void setJaUsergroups(List<Usergroup> jaUsergroups) {
-		this.jaUsergroups = jaUsergroups;
+	public void setUsergroups(List<Usergroup> usergroups) {
+		this.usergroups = usergroups;
 	}
 
 }

@@ -6,12 +6,10 @@ import java.util.List;
 
 
 /**
- * The persistent class for the ja_usergroups database table.
+ * The persistent class for the usergroups database table.
  * 
  */
 @Entity
-@Table(name="ja_usergroups")
-@NamedQuery(name="Usergroup.findAll", query="SELECT u FROM Usergroup u")
 public class Usergroup implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -33,8 +31,17 @@ public class Usergroup implements Serializable {
 	private String title;
 
 	//bi-directional many-to-many association to User
-	@ManyToMany(mappedBy="jaUsergroups")
-	private List<User> jaUsers;
+	@ManyToMany
+	@JoinTable(
+		name="user_usergroup_map"
+		, joinColumns={
+			@JoinColumn(name="group_id", nullable=false)
+			}
+		, inverseJoinColumns={
+			@JoinColumn(name="user_id", nullable=false)
+			}
+		)
+	private List<User> users;
 
 	public Usergroup() {
 	}
@@ -79,12 +86,12 @@ public class Usergroup implements Serializable {
 		this.title = title;
 	}
 
-	public List<User> getJaUsers() {
-		return this.jaUsers;
+	public List<User> getUsers() {
+		return this.users;
 	}
 
-	public void setJaUsers(List<User> jaUsers) {
-		this.jaUsers = jaUsers;
+	public void setUsers(List<User> users) {
+		this.users = users;
 	}
 
 }
