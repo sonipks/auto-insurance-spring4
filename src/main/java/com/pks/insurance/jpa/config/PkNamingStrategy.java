@@ -3,6 +3,12 @@ package com.pks.insurance.jpa.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.orm.jpa.hibernate.SpringNamingStrategy;
 
+/**
+ * @author Pankaj
+ * 
+ * This class is for future use
+ *
+ */
 public class PkNamingStrategy extends SpringNamingStrategy {
 
 	/**
