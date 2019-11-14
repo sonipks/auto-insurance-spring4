@@ -5,8 +5,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
+import org.springframework.security.crypto.password.LdapShaPasswordEncoder;
 /**
  * This class provides spring security configuration.
  * 
@@ -18,35 +20,37 @@ import org.springframework.security.config.annotation.web.servlet.configuration.
  *
  */
 @Configuration
-@EnableWebMvcSecurity
+@EnableWebSecurity
 @Profile("dev")
 public class WebSecurityConfigDev extends WebSecurityConfigurerAdapter{ 
 	
 	@Override
-	protected void configure(HttpSecurity httpSecurity) throws Exception {
-		httpSecurity
+	protected void configure(HttpSecurity http) throws Exception {
+		http
 			.authorizeRequests()
-	        .antMatchers("/", "/home","/about","/contactus","/console/*").permitAll()
-	        .anyRequest().authenticated()
+	        .anyRequest().fullyAuthenticated()
 	        .and()
-	    .formLogin()
-	        .loginPage("/login")
-	        .permitAll()
-	        .and()
-	    .logout()
-	        .permitAll();
+	        .formLogin();
 		
 		//Enable h2 db console
-		httpSecurity.csrf().disable();
-		httpSecurity.headers().frameOptions().disable();
+		http.csrf().disable();
+		http.headers().frameOptions().disable();
+	}
+
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		// TODO Auto-generated method stub
+		auth.ldapAuthentication()
+		.userDnPatterns("uid={0},ou=people")
+		.groupSearchBase("ou=groups")
+		.contextSource()
+			.url("ldap://localhost:8389/dc=springframework,dc=org")
+			.and()
+		.passwordCompare()
+			.passwordEncoder(new LdapShaPasswordEncoder())
+			.passwordAttribute("userPassword");
 	}
 	
-	@Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth
-            .inMemoryAuthentication()
-                .withUser("user").password("password").roles("USER");
-    }
 	
 	
 
