@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.pks.insurance.VehicleRepository;
 import com.pks.insurance.domain.Vehicle;
+import com.pks.insurance.repository.VehicleRepository;
 
 @RestController
 @RequestMapping("/vehicle")
